@@ -10,6 +10,8 @@ const status = {
 
 async function run() {
   try {
+    console.log(core)
+    console.log(core.getInput("status"))
     let s = core.getInput("status")
     if (status[s] === undefined) {
       core.setFailed("Bad `status` type '" + s + "'.")
