@@ -16,8 +16,7 @@ async function run() {
     }
     let url = process.env.MSTEAMS_WEBHOOK_URL
     console.log(url)
-    request.post({uri: url, json: true, body: generateCard(), }, function (err, resp, body) {
-      console.log(err,resp,body)
+    request.post({uri: url, json: true, body: generateCard(s), }, function (err, resp, body) {
       if(err) {
         core.setFailed(err)
         return
@@ -28,16 +27,13 @@ async function run() {
   }
 }
 
-function generateCard() {
+function generateCard(s) {
   return {
-    "contentType": "application/vnd.microsoft.teams.card.o365connector",
-    "content": {
       "@type": "MessageCard",
       "@context": "http://schema.org/extensions",
-      "summary": "Build has " + status[core.getInput("status")],
+      "summary": "Build has " + status[s],
       "title": core.getInput("card_name")
     }
-  }
 }
 
 run();
