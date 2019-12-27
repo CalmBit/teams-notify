@@ -1,5 +1,6 @@
 import core from '@actions/core';
 import github from '@actions/github';
+import request from 'request';
 
 const status = {
   "success": "succeeded",
@@ -10,9 +11,17 @@ const status = {
 async function run() {
   try {
     let s = core.getInput("status")
-    if(status[s] === undefined) {
+    if (status[s] === undefined) {
       core.setFailed("Bad `status` type '" + s + "'.")
+      return
     }
+    let url = process.env.WEBHOOK_URL || "null"
+    request.post(url, { json: true, body: generateCard(), }, function (err, resp, body) {
+      if(err) {
+        core.setFailed(err)
+        return
+      }
+    })
   } catch (error) {
     core.setFailed(error.message);
   }
@@ -30,4 +39,4 @@ function generateCard() {
   }
 }
 
-  run();
+run();

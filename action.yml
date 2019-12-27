@@ -5,9 +5,6 @@ inputs:
   status:
     description: 'Status of the last job (`success`, `failure`, or `canceled`)'
     required: true
-  webhook_url:
-    description: "Microsoft Teams webhook URL for posting the message"
-    required: true
   card_name:
     description: "The name of the incoming card"
     default: "Github Actions Notifier"
