@@ -1,6 +1,5 @@
-import core from '@actions/core';
-import github from '@actions/github';
-import request from 'request';
+const core = require('@actions/core');
+const request = require('request');
 
 const status = {
   "success": "succeeded",
