@@ -1,17 +1,33 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
+import core from '@actions/core';
+import github from '@actions/github';
+
+const status = {
+  "success": "succeeded",
+  "failure": "failed",
+  "canceled": "been canceled"
+}
 
 async function run() {
   try {
-    const myInput = core.getInput('myInput');
-    core.debug(`Hello ${myInput} from inside a container`);
-
-    // Get github context data
-    const context = github.context;
-    console.log(`We can even get context data, like the repo: ${context.repo.repo}`)
+    let s = core.getInput("status")
+    if(status[s] === undefined) {
+      core.setFailed("Bad `status` type '" + s + "'.")
+    }
   } catch (error) {
     core.setFailed(error.message);
   }
 }
 
-run();
+function generateCard() {
+  return {
+    "contentType": "application/vnd.microsoft.teams.card.o365connector",
+    "content": {
+      "@type": "MessageCard",
+      "@context": "http://schema.org/extensions",
+      "summary": "Build has " + status[core.getInput("status")],
+      "title": core.getInput("card_name")
+    }
+  }
+}
+
+  run();
