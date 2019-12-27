@@ -16,6 +16,7 @@ async function run() {
     }
     let url = process.env.MSTEAMS_WEBHOOK_URL || core.getInput("webhook_url")
     request.post(url, { json: true, body: generateCard(), }, function (err, resp, body) {
+      console.log(err,resp,body)
       if(err) {
         core.setFailed(err)
         return
