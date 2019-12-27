@@ -14,7 +14,7 @@ async function run() {
       core.setFailed("Bad `status` type '" + s + "'.")
       return
     }
-    let url = core.getInput("webhook_url")
+    let url = process.env.MSTEAMS_WEBHOOK_URL
     console.log(url)
     request.post({uri: url, json: true, body: generateCard(), }, function (err, resp, body) {
       console.log(err,resp,body)
