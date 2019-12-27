@@ -2,7 +2,7 @@
   "name": "container-toolkit-template",
   "version": "0.0.0",
   "description": "Container template action using actions/toolkit",
-  "main": "lib/main.js",
+  "main": "src/main.js",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write **/*.ts",
