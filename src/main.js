@@ -1,10 +1,17 @@
 const core = require('@actions/core');
+const github = require('@actions/github')
 const request = require('request');
 
 const status = {
   "success": "succeeded",
   "failure": "failed",
   "canceled": "been canceled"
+}
+
+const desc = {
+  "success": "Hooray!",
+  "failure": "Uh-oh..",
+  "canceled": "Hmm..."
 }
 
 async function run() {
@@ -15,7 +22,6 @@ async function run() {
       return
     }
     let url = process.env.MSTEAMS_WEBHOOK_URL
-    console.log(url)
     request.post({uri: url, json: true, body: generateCard(s), }, function (err, resp, body) {
       if(err) {
         core.setFailed(err)
@@ -32,7 +38,10 @@ function generateCard(s) {
       "@type": "MessageCard",
       "@context": "http://schema.org/extensions",
       "summary": "Build has " + status[s],
-      "title": core.getInput("card_name")
+      "sections": [{
+        "activityTitle": "The most recent CI build for '" + github.context.repo.repo + +"' has " + status[s],
+        "activitySubtitle": desc[s] 
+      }]
     }
 }
 
