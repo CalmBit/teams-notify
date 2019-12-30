@@ -14,6 +14,12 @@ const desc = {
   "canceled": "Hmm..."
 }
 
+const colors = {
+  "success": "00b800",
+  "failure": "b80000",
+  "canceled": "b8b8b8"
+}
+
 async function run() {
   try {
     let s = core.getInput("status").toLowerCase()
@@ -37,10 +43,11 @@ function generateCard(s) {
   return {
       "@type": "MessageCard",
       "@context": "http://schema.org/extensions",
+      "themeColor": colors[s],
       "summary": "Build has " + status[s],
       "sections": [{
-        "activityTitle": "The most recent CI build for '" + github.context.repo.repo + +"' has " + status[s],
-        "activitySubtitle": desc[s] 
+        "activityTitle": "The most recent CI build for '" + github.context.repo.repo +"' has " + status[s],
+        "activitySubtitle": desc[s]
       }]
     }
 }
